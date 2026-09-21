@@ -1,0 +1,103 @@
+/* imports separados: se "Cascadia Code" não existir no Google Fonts,
+   o 400 dele não derruba o Roboto Mono (fallback do display) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 150 55% 4%;
+    --foreground: 150 70% 82%;
+    --card: 150 45% 6%;
+    --card-foreground: 150 70% 82%;
+    --primary: 150 100% 60%;
+    --primary-foreground: 150 100% 6%;
+    --secondary: 150 25% 12%;
+    --secondary-foreground: 150 70% 82%;
+    --muted: 150 20% 10%;
+    --muted-foreground: 150 15% 52%;
+    --accent: 150 35% 14%;
+    --accent-foreground: 150 85% 88%;
+    --popover: 150 45% 6%;
+    --popover-foreground: 150 70% 82%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 150 35% 18%;
+    --input: 150 35% 18%;
+    --ring: 150 100% 55%;
+    --radius: 0.75rem;
+    --neon: 150 100% 66%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono antialiased;
+  }
+}
+
+/* scanline CRT sutil e estática */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: repeating-linear-gradient(
+    to bottom,
+    hsl(var(--neon) / 0.04) 0px,
+    hsl(var(--neon) / 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@layer utilities {
+  .neon-text {
+    color: hsl(var(--neon));
+    text-shadow:
+      0 0 4px hsl(var(--neon) / 0.9),
+      0 0 12px hsl(var(--neon) / 0.7),
+      0 0 24px hsl(var(--neon) / 0.5),
+      0 0 48px hsl(var(--neon) / 0.35);
+  }
+  .pulse-neon {
+    animation: flashNeon 600ms ease-out;
+  }
+  .pulse-borda {
+    animation: flashBorda 600ms ease-out;
+  }
+}
+
+@keyframes flashNeon {
+  0% {
+    filter: brightness(2.4);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+@keyframes flashBorda {
+  0% {
+    box-shadow: 0 0 0 0 hsl(var(--ring) / 0.85);
+  }
+  100% {
+    box-shadow: 0 0 0 10px hsl(var(--ring) / 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
